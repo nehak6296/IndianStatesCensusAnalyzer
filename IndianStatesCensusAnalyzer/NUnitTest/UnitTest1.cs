@@ -9,20 +9,29 @@ namespace NUnitTest
     public class Tests
     {
         static string indianStateCensusHeaders = "State,Population,AreaInSqKm,DensityPerSqKm";
+        static string indianStateCodeHeaders = "SrNo,State Name,TIN,StateCode";
+
         static string indianStateCensusFilePath = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData.csv";
         static string IncorrectIndianStateCensusFileName = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData1.csv";
         static string CorrectIndianStateCensusFileButTypeIncorrect = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData.txt";
         static string wrongDelimiterIndianCensusFilePath = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\DelimiterIndiaStateCensusData.csv";
         static string wrongHeaderIndianCensusFile = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\WrongIndiaStateCensusData.csv";
-        
+
+        static string indianStateCodeFilePath = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndiaStateCode.csv";
+        static string wrongIndianStateCodeFileType = @"";
+        static string delimiterIndianStateCodeFilePath = @"";
+        static string wrongHeaderStateCodeFilePath = @"";
+
         CensusAnalyser censusAnalyser;
         Dictionary<string, CensusDTO> totalRecord;
+        Dictionary<string, CensusDTO> stateRecord;
 
         [SetUp]
         public void Setup()
         {
             censusAnalyser = new CensusAnalyser();
             totalRecord = new Dictionary<string, CensusDTO>();
+            stateRecord = new Dictionary<string, CensusDTO>();
         }
 
         [Test]  //TC1.1
@@ -57,6 +66,12 @@ namespace NUnitTest
         {
             var stateException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(wrongHeaderIndianCensusFile, Country.INDIA, indianStateCensusHeaders));
             Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_HEADER, stateException.eType);
+        }
+        [Test]  //TC2.1
+        public void GivenIndianStateCodeFileData_WhenReaded_ShouldReturnCensusDataCount()
+        {
+            stateRecord = censusAnalyser.LoadCensusData(indianStateCodeFilePath, Country.INDIA, indianStateCodeHeaders);
+            Assert.AreEqual(37, stateRecord.Count);
         }
     }
 }
