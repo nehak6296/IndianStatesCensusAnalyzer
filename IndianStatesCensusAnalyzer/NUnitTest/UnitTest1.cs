@@ -19,7 +19,7 @@ namespace NUnitTest
 
         static string indianStateCodeFilePath = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndiaStateCode.csv";
         static string CorrectIndiaStateCodeFileButTypeIncorrect = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndiaStateCode.txt";
-        static string wrongIndianStateCodeFileType = @"";
+        static string IncorrectIndiaStateCodeFileName = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndiaStateCode1.csv";
         static string delimiterIndianStateCodeFilePath = @"";
         static string wrongHeaderStateCodeFilePath = @"";
 
@@ -74,11 +74,18 @@ namespace NUnitTest
             stateRecord = censusAnalyser.LoadCensusData(indianStateCodeFilePath, Country.INDIA, indianStateCodeHeaders);
             Assert.AreEqual(37, stateRecord.Count);
         }
+        [Test]  //TC2.2
+        public void GivenIncorrectIndiaStateCodeFileName_WhenReaded_ShouldReturnCustomException()
+        {
+            var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(IncorrectIndiaStateCodeFileName, Country.INDIA, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.FILE_NOT_FOUND, censusException.eType);
+        }
         [Test]  //TC2.3
         public void GivenCorrectIndianStateCodeFileName_But_Extension_Incorrect_WhenReaded_ShouldReturnCustomException()
         {
             var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CorrectIndiaStateCodeFileButTypeIncorrect, Country.INDIA, indianStateCodeHeaders));
             Assert.AreEqual(CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE, censusException.eType);
         }
+
     }
 }
