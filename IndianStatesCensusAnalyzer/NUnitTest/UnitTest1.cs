@@ -12,7 +12,9 @@ namespace NUnitTest
         static string indianStateCensusFilePath = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData.csv";
         static string IncorrectIndianStateCensusFileName = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData1.csv";
         static string CorrectIndianStateCensusFileButTypeIncorrect = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData.txt";
-        
+        static string wrongDelimiterIndianCensusFilePath = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\DelimiterIndiaStateCensusData.csv";
+        //static string CorrectIndianStateCensusFileButTypeIncorrect = @"C:\Users\Neha\Desktop\Problems\IndianStatesCensusAnalyzer\IndianStatesCensusAnalyzer\NUnitTest\CSVFiles\IndianStateCensusCsvData.txt";
+        //static string wrongHeaderIndianCensusFile = @"er\WrongHeaderIndiaStateCensusData.csv";
         CensusAnalyser censusAnalyser;
         Dictionary<string, CensusDTO> totalRecord;
 
@@ -44,6 +46,12 @@ namespace NUnitTest
             Assert.AreEqual(CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE, censusException.eType);
         }
 
-       
+        [Test]  //TC1.4
+        public void GivenDelimiterInorrectIndianCensusDataFile_WhenReaded_ShouldReturnCustomException()
+        {
+            var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(wrongDelimiterIndianCensusFilePath, Country.INDIA, indianStateCensusHeaders));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER, censusException.eType);
+        }
+
     }
 }
